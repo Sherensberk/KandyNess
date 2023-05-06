@@ -2,7 +2,7 @@
   <v-menu bottom min-width="200px" rounded offset-y>
     <template v-slot:activator="{ on }">
       <v-btn icon x-large v-on="on">
-        <v-avatar color="purple" size="45">
+        <v-avatar color="purple" size="42">
           <span class="white--text text-h5">{{ user.initials }}</span>
         </v-avatar>
       </v-btn>

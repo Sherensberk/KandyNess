@@ -27,26 +27,46 @@
         justify-content: center;
       "
     >
-      <pcard></pcard>
-      <pcard></pcard>
-      <pcard></pcard>
-      <pcard></pcard>
-      <pcard></pcard>
-      <pcard></pcard>
-      <pcard></pcard>
-      <pcard></pcard>
-      <pcard></pcard>
-      <pcard></pcard>
-      <pcard></pcard>
-      <pcard></pcard>
+      <addcard></addcard>
+      <pcard
+        v-for="(products, index) in products"
+        :key="index"
+        :name="products.name"
+        :desc="products.desc"
+        :picture="products.picture"
+        :category="products.category"
+      ></pcard>
     </div>
   </div>
 </template>
 
 <script>
+import addcard from "@/components/addcard";
 import pcard from "@/components/pcard";
 export default {
   name: "myView",
-  components: { pcard },
+  components: { pcard, addcard },
+  data: () => ({
+    products: [
+      {
+        name: "Cafe",
+        desc: "Cafe de programador de java",
+        picture: "A_small_cup_of_coffee.jpg",
+        category: "bebidas",
+      },
+      {
+        name: "Coxinha",
+        desc: "Uma coxinha aonde o recheio possa talvez estar gelado",
+        picture: "",
+        category: "salgados",
+      },
+      {
+        name: "Brownie",
+        desc: "Brownie de chocolate velho de supermercado",
+        picture: "brownie4k.jpg",
+        category: "sobremesas",
+      },
+    ],
+  }),
 };
 </script>

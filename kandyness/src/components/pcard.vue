@@ -1,19 +1,9 @@
 <template>
   <v-card class="mx-auto my-12" max-width="250">
-    <template slot="progress">
-      <v-progress-linear
-        color="deep-purple"
-        height="10"
-        indeterminate
-      ></v-progress-linear>
-    </template>
+    <!-- Usar o require para srcs, passando o path em uma template string e o nome do arquivo em uma variável -->
+    <v-img height="200" :src="require(`@/assets/Images/${picture}`)"></v-img>
 
-    <v-img
-      height="200"
-      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-    ></v-img>
-
-    <v-card-title>Cafe Badilico</v-card-title>
+    <v-card-title>{{ name }}</v-card-title>
 
     <v-card-text>
       <v-row align="center" class="mx-0">
@@ -29,21 +19,22 @@
         <div class="grey--text ms-4">4.5 (413)</div>
       </v-row>
 
-      <div class="my-4 text-subtitle-1">$ • Italian, Cafe</div>
-
+      <div class="my-4 text-subtitle-1">{{ category }}</div>
       <div>
-        Small plates, salads & sandwiches - an intimate setting with 12 indoor
-        seats plus patio seating.
+        <span> {{ desc }} </span>
       </div>
     </v-card-text>
-
-    <v-divider class="mx-4"></v-divider>
   </v-card>
 </template>
-
 <script>
 export default {
   name: "pcard",
+  props: {
+    name: String,
+    desc: String,
+    picture: String,
+    category: String,
+  },
   data: () => ({}),
 };
 </script>
