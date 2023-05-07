@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--Form de add inicio-->
     <v-sheet
       class="text--white"
       color="purple"
@@ -7,10 +8,8 @@
       height="100"
       width="100%"
       style="display: flex; align-items: center"
-      ><h1 style="font-size: 50px; color: white; margin-left: 16px">
-        Exemplo de loja
-      </h1></v-sheet
-    >
+      ><h1 style="font-size: 50px; color: white; margin-left: 16px"></h1
+    ></v-sheet>
     <div style="margin-left: 16px; margin-top: 50px">
       <span style="color: #9c27b0; font-size: 25px; font-weight: 350">
         Produtos
@@ -86,14 +85,14 @@
             <v-btn
               v-on:click="addCard"
               id="addProduto"
-              color="#9c27b0"
+              color="green"
               elevation="2"
               width="120"
               ><span style="color: white">Adicionar</span></v-btn
             >
           </div>
-        </div>
-      </v-card>
+        </div> </v-card
+      ><!--Form de add fim e inicio dos pcards-->
       <pcard
         v-for="(products, index) in products"
         :key="index"

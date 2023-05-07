@@ -3,18 +3,21 @@
     <!-- Usar o require para srcs, passando o path em uma template string e o nome do arquivo em uma variável -->
     <v-img class="overflow-visible" height="200" :src="picture">
       <v-btn
-        class="mt-n4 mr-n7"
+        class="mt-n4 mr-n9"
         v-on:click="deleteCard"
         fab
         dark
         x-small
-        color="purple"
+        color="red"
         absolute
         right
       >
         <v-icon dark> mdi-delete </v-icon>
-      </v-btn></v-img
-    >
+      </v-btn>
+      <v-btn class="mt-n4 mr-0" fab dark x-small color="blue" absolute right>
+        <v-icon dark> mdi-pencil </v-icon>
+      </v-btn>
+    </v-img>
 
     <v-card-title>{{ name }}</v-card-title>
 
