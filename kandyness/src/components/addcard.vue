@@ -16,15 +16,47 @@
     <div
       style="
         display: flex;
-        align-items: center;
+
         flex-direction: column;
-        padding: 10px;
+        padding: 5px;
         gap: 10px;
       "
     >
-      <input type="text" placeholder="Nome do produto" />
-      <input type="text" placeholder="Tipo de produto" />
-      <input type="text" placeholder="Descrição do produto" />
+      <div>
+        <v-text-field
+          color="#9c27b0"
+          label="Nome do produto"
+          hide-details="auto"
+        ></v-text-field>
+      </div>
+      <div>
+        <v-text-field
+          color="#9c27b0"
+          label="Categoria do produto"
+          hide-details="auto"
+        ></v-text-field>
+      </div>
+      <div>
+        <v-text-field
+          color="#9c27b0"
+          label="Descrição do produto"
+          hide-details="auto"
+        ></v-text-field>
+      </div>
+      <div style="margin-top: 18px">
+        <v-file-input
+          color="#9c27b0"
+          dense
+          accept="image/*"
+          label="Imagem do produto"
+        ></v-file-input>
+      </div>
+      <v-spacer></v-spacer>
+      <div class="text-center">
+        <v-btn color="#9c27b0" elevation="2" width="120"
+          ><span style="color: white">Adicionar</span></v-btn
+        >
+      </div>
     </div>
   </v-card>
 </template>

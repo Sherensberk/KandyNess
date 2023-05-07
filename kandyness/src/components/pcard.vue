@@ -1,7 +1,15 @@
 <template>
   <v-card class="mx-auto my-12" max-width="250">
     <!-- Usar o require para srcs, passando o path em uma template string e o nome do arquivo em uma variável -->
-    <v-img height="200" :src="require(`@/assets/Images/${picture}`)"></v-img>
+    <v-img
+      class="overflow-visible"
+      height="200"
+      :src="require(`@/assets/Images/${picture}`)"
+    >
+      <v-btn class="mt-n2 mr-n7" fab dark x-small color="purple" absolute right>
+        <v-icon dark> mdi-delete </v-icon>
+      </v-btn>
+    </v-img>
 
     <v-card-title>{{ name }}</v-card-title>
 
