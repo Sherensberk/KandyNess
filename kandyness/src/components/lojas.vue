@@ -1,7 +1,6 @@
 <template>
   <v-sheet class="mx-auto" elevation="0" max-width="90%">
     <v-slide-group
-      v-model="model"
       class="pa-4"
       center-active="true"
       mobile-breakpoint="1"
@@ -9,45 +8,52 @@
       v-for="item in topics"
       :key="item.name"
     >
-      {{ item.name }}
-      <v-slide-item
-        v-for="n in item.cards"
-        :key="n + item.cards"
-        v-slot="{ active, toggle }"
-      >
-        <v-card
-          :color="active ? 'primary' : 'grey lighten-1'"
-          class="ma-4"
-          height="200"
-          width="200"
-          @click="toggle"
-        >
-          <v-row class="fill-height" align="center" justify="center">
-            <v-scale-transition>
-              <v-icon
-                v-if="active"
-                color="white"
-                size="48"
-                v-text="'mdi-close-circle-outline'"
-              ></v-icon>
-            </v-scale-transition>
-          </v-row>
-        </v-card>
-      </v-slide-item>
+      <!-- topic title  -->
+      <div class="text-h5 font-weight-bold mb-4" :key="item.name">
+        {{ item.name }}
+      </div>
+      <div v-for="n in group(item.name)" :key="n.title">
+        <CardLg
+          class="mr-3"
+          :title="n.title"
+          :desc="n.desc"
+          :img="n.img"
+          :price="n.price"
+          :rating="n.rating"
+          :rating_votes="n.rating_votes"
+          :tags="n.tags.join(', ')"
+          :times="n.times"
+        />
+      </div>
     </v-slide-group>
   </v-sheet>
 </template>
 
 <script>
+import CardLg from "@/components/card_lg.vue";
+import { mapGetters } from "vuex";
 export default {
+  components: {
+    CardLg,
+  },
   name: "PGLojas",
+  computed: {
+    ...mapGetters(["getLojas"]),
+    ...mapGetters(["favLojas"]),
+  },
+  methods: {
+    group(key) {
+      if (key == "Novas") {
+        return this.getLojas;
+      }
+      return this.favLojas;
+    },
+  },
   data: () => ({
     slides: ["First", "Second", "Third", "Fourth", "Fifth"],
-    topics: [
-      { name: "Novas", cards: 5 },
-      { name: "Favoritos", cards: 10 },
-    ],
+    topics: [{ name: "Novas" }, { name: "Favoritos" }],
     model: null,
   }),
 };
 </script>
+w
