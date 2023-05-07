@@ -1,15 +1,20 @@
 <template>
   <v-card class="mx-auto my-12" max-width="250">
     <!-- Usar o require para srcs, passando o path em uma template string e o nome do arquivo em uma variável -->
-    <v-img
-      class="overflow-visible"
-      height="200"
-      :src="require(`@/assets/Images/${picture}`)"
-    >
-      <v-btn class="mt-n2 mr-n7" fab dark x-small color="purple" absolute right>
+    <v-img class="overflow-visible" height="200" :src="picture">
+      <v-btn
+        class="mt-n4 mr-n7"
+        v-on:click="deleteCard"
+        fab
+        dark
+        x-small
+        color="purple"
+        absolute
+        right
+      >
         <v-icon dark> mdi-delete </v-icon>
-      </v-btn>
-    </v-img>
+      </v-btn></v-img
+    >
 
     <v-card-title>{{ name }}</v-card-title>
 
@@ -44,5 +49,10 @@ export default {
     category: String,
   },
   data: () => ({}),
+  methods: {
+    deleteCard: function () {
+      this.$emit("delete-card", this.index);
+    },
+  },
 };
 </script>
