@@ -100,7 +100,13 @@
         :desc="products.desc"
         :picture="products.picture"
         :category="products.category"
+        :id="index.toString()"
+        :nameInput="'newName' + index.toString()"
+        :catInput="'newCat' + index.toString()"
+        :descInput="'newDesc' + index.toString()"
+        :imgInput="'newImg' + index.toString()"
         @delete-card="deleteCard(index)"
+        @edit-card="editCard(index)"
       ></pcard>
     </div>
   </div>
@@ -155,6 +161,23 @@ export default {
     },
     deleteCard: function (index) {
       this.products.splice(index, 1);
+    },
+    editCard: function (index) {
+      let nome = document.getElementById(`newName${index}`);
+      let categoria = document.getElementById(`newCat${index}`);
+      let desc = document.getElementById(`newDesc${index}`);
+      let img = document.getElementById(`newImg${index}`);
+      console.log(`newName${index}`);
+      this.products[index].name = nome.value;
+      this.products[index].category = categoria.value;
+      this.products[index].desc = desc.value;
+      this.products[index].picture = img.value;
+      let modal = document.getElementById(index.toString());
+      nome.value = "";
+      categoria.value = "";
+      desc.value = "";
+      img.value = "";
+      modal.close();
     },
   },
 };
