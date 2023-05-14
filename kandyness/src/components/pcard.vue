@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto my-12" max-width="250">
+  <v-card class="mx-auto my-12" max-width="250" min-width="250">
     <!-- Usar o require para srcs, passando o path em uma template string e o nome do arquivo em uma variável -->
     <v-img class="overflow-visible" height="200" :src="picture">
       <v-btn
