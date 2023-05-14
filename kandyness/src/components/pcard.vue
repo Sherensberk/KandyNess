@@ -36,35 +36,48 @@
       </v-row>
       <!--inicio do modal-->
       <dialog :id="id">
-        <v-container>
-          <v-row>
-            <v-col cols="12">
-              <v-text-field
-                :id="nameInput"
-                label="Nome do produto"
-              ></v-text-field>
-            </v-col>
+        <v-form @submit.prevent v-model="valid">
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  :id="nameInput"
+                  label="Nome do produto"
+                  :rules="nameRules"
+                  required="true"
+                ></v-text-field>
+              </v-col>
 
-            <v-col cols="12">
-              <v-text-field
-                label="Categoria do produto"
-                :id="catInput"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12">
-              <v-text-field
-                label="Descrição do produto*"
-                :id="descInput"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12">
-              <v-text-field :id="imgInput" label="Imagem do produto">
-              </v-text-field>
-            </v-col>
-          </v-row>
-        </v-container>
+              <v-col cols="12">
+                <v-text-field
+                  label="Categoria do produto"
+                  :id="catInput"
+                  :rules="categoryRules"
+                  required="true"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  label="Descrição do produto*"
+                  :id="descInput"
+                  :rules="descRules"
+                  required="true"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field :id="imgInput" label="Imagem do produto">
+                </v-text-field>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-form>
         <div class="text-center">
-          <v-btn v-on:click="editCard" color="blue" elevation="2" width="120"
+          <v-btn
+            type="submit"
+            v-on:click="editCard"
+            color="blue"
+            elevation="2"
+            width="120"
             ><span style="color: white">Salvar</span></v-btn
           >
         </div>
@@ -91,13 +104,45 @@ export default {
     descInput: String,
     imgInput: String,
   },
-  data: () => ({}),
+  data: () => ({
+    valid: false,
+    nameRules: [
+      (v) => !!v || "O Nome é obrigatório",
+      (v) => (v && v.length <= 30) || "O Nome deve ter menos de 30 caracteres",
+      (v) => (v && v.length >= 5) || "O Nome deve ter mais de 5 caracteres",
+      (v) => /^[a-zA-Z ]*$/.test(v) || "O Nome deve conter apenas letras",
+      (v) => !/\s{2,}/.test(v) || "O Nome não pode conter espaços duplos",
+    ],
+    categoryRules: [
+      (v) => !!v || "A Categoria é obrigatória",
+      (v) =>
+        (v && v.length <= 30) || "A Categoria deve ter menos de 30 caracteres",
+      (v) =>
+        (v && v.length >= 5) || "A Categoria deve ter mais de 5 caracteres",
+      (v) => /^[a-zA-Z ]*$/.test(v) || "A Categoria deve conter apenas letras",
+      (v) => !/\s{2,}/.test(v) || "A Categoria não pode conter espaços duplos",
+    ],
+    descRules: [
+      (v) => !!v || "A Descrição é obrigatória",
+      (v) =>
+        (v && v.length <= 30) || "A Descrição deve ter menos de 30 caracteres",
+      (v) =>
+        (v && v.length >= 5) || "A Descrição deve ter mais de 5 caracteres",
+      (v) => /^[a-zA-Z ]*$/.test(v) || "A Descrição deve conter apenas letras",
+      (v) => !/\s{2,}/.test(v) || "A Descrição não pode conter espaços duplos",
+    ],
+  }),
   methods: {
     deleteCard: function () {
       this.$emit("delete-card", this.index);
     },
     editCard: function () {
-      this.$emit("edit-card", this.index);
+      if (this.valid) {
+        this.$emit("edit-card", this.index);
+      } else {
+        alert("Preencha os campos corretamente");
+      }
+      // this.$emit("edit-card", this.index);
     },
     openModal: function () {
       let modal = document.getElementById(this.id);
