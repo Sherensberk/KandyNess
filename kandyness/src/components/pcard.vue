@@ -14,7 +14,15 @@
       >
         <v-icon dark> mdi-delete </v-icon>
       </v-btn>
-      <EditForm></EditForm>
+      <EditForm
+        :editForm="'form' + productName"
+        :editDesc="'desc' + productName"
+        :editName="'name' + productName"
+        :editCat="'name' + productName"
+        :saveEdit="'save' + productName"
+        :errorDiv="'errorDiv' + productName"
+      ></EditForm>
+      <!--Dialog-->
     </v-img>
     <v-card-title>{{ name }}</v-card-title>
 
@@ -45,12 +53,7 @@ export default {
   name: "pcard",
   components: { EditForm },
   props: {
-    editForm: String,
-    editName: String,
-    editCat: String,
-    editDesc: String,
-    saveEdit: String,
-    errorDiv: String,
+    productName: String,
   },
   data: () => ({
     selectedItem: null,

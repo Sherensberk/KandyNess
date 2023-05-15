@@ -36,14 +36,7 @@
           font-size: 15px;
         "
       ></div>
-      <pcard
-        :editForm="'1'"
-        :editDesc="'2'"
-        :editName="'3'"
-        :editCat="'4'"
-        :saveEdit="'5'"
-        :errorDiv="'6'"
-      ></pcard>
+      <pcard :productName="'teste'"></pcard>
     </div>
   </div>
 </template>

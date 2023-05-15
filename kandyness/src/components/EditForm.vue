@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" persistent max-width="290">
+  <v-dialog v-model="dialog" persistent max-width="290" @input="load">
     <template v-slot:activator="{ on, attrs }">
       <v-btn
         class="mt-n4 mr-0"
@@ -37,12 +37,13 @@
           gap: 10px;
         "
       >
-        <form action="/" method="GET">
+        <form :id="editForm" action="/" method="GET">
           <div>
             <v-text-field
               color="#9c27b0"
               label="Nome do produto"
               hide-details="auto"
+              :id="editName"
             ></v-text-field>
           </div>
           <div>
@@ -52,6 +53,7 @@
               label="Categoria do produto"
               color="#9c27b0"
               hide-details="auto"
+              :id="editCat"
             ></v-select>
           </div>
           <div>
@@ -59,6 +61,7 @@
               color="#9c27b0"
               label="Descrição do produto"
               hide-details="auto"
+              :id="editDesc"
             ></v-text-field>
           </div>
           <div>
@@ -79,11 +82,11 @@
               "
               type="submit"
               value="Salvar"
-              @click="dialog = false"
+              :id="saveEdit"
             />
           </div>
           <div
-            :id="errors"
+            :id="errorDiv"
             style="
               margin-top: 90px;
               margin-bottom: 48px;
@@ -102,8 +105,57 @@
 <script>
 export default {
   name: "EditForm",
+  props: {
+    editForm: String,
+    editName: String,
+    editCat: String,
+    editDesc: String,
+    saveEdit: String,
+    errorDiv: String,
+  },
   data: () => ({
     dialog: false,
+    items: ["Salgados", "Doces", "Bebidas", "Frutas", "Verduras"],
+    selectedItem: null,
   }),
+  methods: {
+    load: function () {
+      setTimeout(this.formValidation, 50); //lol kkkkkk
+    },
+    formValidation: function () {
+      console.log(document.getElementById(this.editForm));
+      const form = document.getElementById(this.editForm);
+      const pName = document.getElementById(this.editName);
+      const pDesc = document.getElementById(this.editDesc);
+      const errorMessages = document.getElementById(this.errorDiv);
+      form.addEventListener("submit", (e) => {
+        let nameRegex = /[0-9!@#$%^&*()_+=[\]{};':",./<>?\\|`~\-]/g; //eslint-disable-line
+        let descRegex = /[^\w\s]/g; //eslint-disable-line
+        errorMessages.innerHTML = "";
+        let errors = [];
+        if (pName.value.length < 3) {
+          errors.push("O nome precisa ter pelo menos 3 caracteres!");
+        }
+        if (nameRegex.test(pName.value)) {
+          errors.push("O nome só pode conter letras!");
+        }
+        if (this.selectedItem == null) {
+          errors.push("Selecione a categoria do produto!");
+        }
+        if (pDesc.value.length < 10) {
+          errors.push("A descrição precisa conter pelo menos 10 Caracteres!");
+        }
+        if (descRegex.test(pDesc.value)) {
+          errors.push("A descrição não pode conter caracteres especiais!");
+        }
+        if (errors.length > 0) {
+          e.preventDefault();
+          errors.forEach(
+            (item) => (errorMessages.innerHTML += "- " + item + "<br>")
+          );
+        }
+      });
+    },
+  },
 };
 </script>
