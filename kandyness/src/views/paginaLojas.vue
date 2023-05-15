@@ -94,7 +94,7 @@
         </div> </v-card
       ><!--Form de add fim e inicio dos pcards-->
       <pcard
-        v-for="(products, index) in products"
+        v-for="(products, index) in produtos"
         :key="index"
         :name="products.name"
         :desc="products.desc"
@@ -106,7 +106,7 @@
         :descInput="'newDesc' + index.toString()"
         :imgInput="'newImg' + index.toString()"
         @delete-card="deleteCard(index)"
-        @edit-card="editCard(index)"
+        @edit-card="editCard($event)"
       ></pcard>
     </div>
   </div>
@@ -114,34 +114,18 @@
 
 <script>
 import pcard from "@/components/pcard";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "myView",
   components: { pcard },
-  data: () => ({
-    products: [
-      {
-        name: "Cafe",
-        desc: "Cafe de programador de java",
-        picture:
-          "https://upload.wikimedia.org/wikipedia/commons/4/45/A_small_cup_of_coffee.JPG",
-        category: "bebidas",
-      },
-      {
-        name: "Coxinha",
-        desc: "Uma coxinha aonde o recheio possa talvez estar gelado",
-        picture:
-          "https://a-static.mlcdn.com.br/1500x1500/coxinha-de-frango-crossdog/crossdog/e6e95a5807f011ec87ac4201ac185013/17e319f6aafea2915fa2b2bf7e0a649a.jpeg",
-        category: "salgados",
-      },
-      {
-        name: "Brownie",
-        desc: "Brownie de chocolate velho de supermercado",
-        picture: "https://images2.alphacoders.com/104/1040769.jpg",
-        category: "sobremesas",
-      },
-    ],
-  }),
+  data: () => ({}),
+  computed: {
+    ...mapGetters({
+      produtos: "getProdutos",
+    }),
+  },
   methods: {
+    ...mapActions(["editProduct"]),
     addCard: function () {
       let nome = document.getElementById("nomeProduto");
       let categoria = document.getElementById("categoriaProduto");
@@ -162,22 +146,9 @@ export default {
     deleteCard: function (index) {
       this.products.splice(index, 1);
     },
-    editCard: function (index) {
-      let nome = document.getElementById(`newName${index}`);
-      let categoria = document.getElementById(`newCat${index}`);
-      let desc = document.getElementById(`newDesc${index}`);
-      let img = document.getElementById(`newImg${index}`);
-      console.log(`newName${index}`);
-      this.products[index].name = nome.value;
-      this.products[index].category = categoria.value;
-      this.products[index].desc = desc.value;
-      this.products[index].picture = img.value;
-      let modal = document.getElementById(index.toString());
-      nome.value = "";
-      categoria.value = "";
-      desc.value = "";
-      img.value = "";
-      modal.close();
+    editCard: function (info) {
+      console.log(info);
+      this.editProduct(info);
     },
   },
 };

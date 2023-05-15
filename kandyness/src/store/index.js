@@ -73,19 +73,50 @@ export default new Vuex.Store({
         times: ["10:30", "14:00", "18:00"],
       },
     ],
+    produtos: [
+      {
+        name: "Cafe",
+        desc: "Cafe de programador de java",
+        picture:
+          "https://upload.wikimedia.org/wikipedia/commons/4/45/A_small_cup_of_coffee.JPG",
+        category: ["Bebidas"],
+      },
+      {
+        name: "Coxinha",
+        desc: "Uma coxinha aonde o recheio possa talvez estar gelado",
+        picture:
+          "https://a-static.mlcdn.com.br/1500x1500/coxinha-de-frango-crossdog/crossdog/e6e95a5807f011ec87ac4201ac185013/17e319f6aafea2915fa2b2bf7e0a649a.jpeg",
+        category: ["Salgados"],
+      },
+      {
+        name: "Brownie",
+        desc: "Brownie de chocolate velho de supermercado",
+        picture: "https://images2.alphacoders.com/104/1040769.jpg",
+        category: ["Doces"],
+      },
+    ],
   },
   getters: {
     getLojas: (state) => state.lojas,
     favLojas: (state) => state.lojas.slice(0, state.lojas.length / 2),
+    getProdutos: (state) => state.produtos,
   },
   mutations: {
     addLoja(state, loja) {
       state.lojas.push(loja);
     },
+    editProduct(state, payload) {
+      console.log("editProduct", payload);
+      state.produtos[payload.index] = payload.value;
+    },
   },
   actions: {
     addLoja({ commit }, loja) {
       commit("addLoja", loja);
+    },
+    editProduct({ commit }, payload) {
+      // console.log(payload);
+      commit("editProduct", payload);
     },
   },
   modules: {},
