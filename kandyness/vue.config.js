@@ -9,7 +9,7 @@ module.exports = defineConfig({
         fs: false,
         net: false,
         crypto: false,
-        tls:false
+        tls: false,
       },
     },
   },

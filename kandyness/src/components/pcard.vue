@@ -60,10 +60,22 @@ export default {
     PForm,
   },
   props: {
-    name: String,
-    desc: String,
-    picture: String,
-    category: Array,
+    name: {
+      type: String,
+      default: () => "Nome do produto",
+    },
+    desc: {
+      type: String,
+      default: () => "Descrição do produto",
+    },
+    picture: {
+      type: String,
+      default: () => "https://picsum.photos/200/300",
+    },
+    category: {
+      type: Array,
+      default: () => ["A", "B", "C"],
+    },
     id: String,
     nameInput: String,
     catInput: String,

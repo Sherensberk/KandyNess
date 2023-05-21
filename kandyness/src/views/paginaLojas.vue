@@ -94,12 +94,12 @@
         </div> </v-card
       ><!--Form de add fim e inicio dos pcards-->
       <pcard
-        v-for="(products, index) in produtos"
+        v-for="(products, index) in products || []"
         :key="index"
-        :name="products.name"
-        :desc="products.desc"
+        :name="products.nome"
+        :desc="products.descricao"
         :picture="products.picture"
-        :category="products.category"
+        :category="products.categoria"
         :id="index.toString()"
         :nameInput="'newName' + index.toString()"
         :catInput="'newCat' + index.toString()"
@@ -114,17 +114,30 @@
 
 <script>
 import pcard from "@/components/pcard";
+import ProductDataService from "@/services/ProductDataService";
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "myView",
   components: { pcard },
-  data: () => ({}),
+  data: () => ({
+    products: [],
+  }),
   computed: {
     ...mapGetters({
       produtos: "getProdutos",
     }),
   },
   methods: {
+    retrieveProducts() {
+      ProductDataService.getAll()
+        .then((response) => {
+          this.products = response.data;
+          console.log(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
     ...mapActions(["editProduct"]),
     addCard: function () {
       let nome = document.getElementById("nomeProduto");
@@ -150,6 +163,9 @@ export default {
       console.log(info);
       this.editProduct(info);
     },
+  },
+  mounted() {
+    this.retrieveProducts();
   },
 };
 </script>

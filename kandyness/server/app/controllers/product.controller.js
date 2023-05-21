@@ -1,6 +1,30 @@
 const db = require("../models");
 const Product = db.products;
+const Loja = db.lojas;
+
 const Op = db.Sequelize.Op;
+
+exports.findAllByLojaId = (req, res) => {
+  const lojaId = req.params.loja;
+  console.log(req.params);
+  Product.findAll({
+    where: {
+      loja: lojaId
+    },
+    include: {
+      model: Loja,
+      as: "lojaObj"
+    }
+  })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "Ocorreu um erro ao buscar os produtos da loja."
+      });
+    });
+};
 
 // Create and Save a new Product
 exports.create = (req, res) => {
