@@ -1,10 +1,10 @@
 <template>
   <v-card class="mx-auto my-12" max-width="250">
     <!-- Usar o require para srcs, passando o path em uma template string e o nome do arquivo em uma variável -->
-    <v-img class="overflow-visible" height="200" :src="picture">
+    <v-img class="overflow-visible" height="200" :src="getImageUrl(picture)">
       <v-btn
         class="mt-n4 mr-n9"
-        v-on:click="deleteCard"
+        v-on:click="deleteCard(name)"
         fab
         dark
         x-small
@@ -35,74 +35,96 @@
         <div class="grey--text ms-4">4.5 (413)</div>
       </v-row>
       <!--inicio do modal-->
-      <dialog :id="id">
-        <v-container>
-          <v-row>
-            <v-col cols="12">
-              <v-text-field
-                :id="nameInput"
-                label="Nome do produto"
-              ></v-text-field>
-            </v-col>
-
-            <v-col cols="12">
-              <v-text-field
-                label="Categoria do produto"
-                :id="catInput"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12">
-              <v-text-field
-                label="Descrição do produto*"
-                :id="descInput"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12">
-              <v-text-field :id="imgInput" label="Imagem do produto">
-              </v-text-field>
-            </v-col>
-          </v-row>
-        </v-container>
-        <div class="text-center">
-          <v-btn v-on:click="editCard" color="blue" elevation="2" width="120"
-            ><span style="color: white">Salvar</span></v-btn
-          >
-        </div>
-      </dialog>
-      <!--Fim do modal-->
-      <div class="my-4 text-subtitle-1">{{ category }}</div>
+      <div class="my-4 text-subtitle-1">
+        {{ category.map((objeto) => objeto.nome).join(" ,") }}
+      </div>
       <div>
         <span> {{ desc }} </span>
       </div>
+      <div class="ms-auto mt-4">
+        <v-chip class="ma-0" dark>
+          <span>R$ {{ valor.toFixed(2) }}</span>
+        </v-chip>
+      </div>
+      <PForm
+        :name="name"
+        :desc="desc"
+        :image="picture.split('/').pop()"
+        :category="category"
+        :edit="edit"
+        :valor="valor"
+        @edit-card="editCard($event)"
+      ></PForm>
+      <!--Fim do modal-->
     </v-card-text>
   </v-card>
 </template>
 <script>
+import PForm from "@/components/pform.vue";
 export default {
   name: "pcard",
-  props: {
-    name: String,
-    desc: String,
-    picture: String,
-    category: String,
-    id: String,
-    nameInput: String,
-    catInput: String,
-    descInput: String,
-    imgInput: String,
+  components: {
+    PForm,
   },
-  data: () => ({}),
-  methods: {
-    deleteCard: function () {
-      this.$emit("delete-card", this.index);
+  props: {
+    name: {
+      type: String,
+      default: () => "Nome do produto",
     },
-    editCard: function () {
-      this.$emit("edit-card", this.index);
+    desc: {
+      type: String,
+      default: () => "Descrição do produto",
+    },
+    picture: {
+      type: String,
+      default: () => "https://picsum.photos/200/300",
+    },
+    category: {
+      type: Array,
+      default: () => ["A", "B", "C"],
+    },
+    image: {
+      type: String,
+      default: () => "https://picsum.photos/200/300",
+    },
+    valor: {
+      type: Number,
+      default: () => 0,
+    },
+  },
+  data: () => ({
+    valid: false,
+    edit: false,
+  }),
+  methods: {
+    getImageUrl(img) {
+      try {
+        return require(`@/assets/lojas/${img}`);
+      } catch (e) {
+        return require(`@/assets/error.png`);
+      }
+    },
+    deleteCard: function (product) {
+      this.$emit("delete-card", product);
+    },
+    editCard: function (value) {
+      value.id = this.name;
+      value.cat_id = this.category;
+      this.$emit("edit-card", value);
+      this.edit = !this.edit;
     },
     openModal: function () {
-      let modal = document.getElementById(this.id);
-      modal.showModal();
+      this.edit = !this.edit;
     },
+  },
+  created() {
+    this.product = {
+      name: this.name,
+      category: [],
+      desc: this.desc,
+      image: this.image,
+      valor: this.valor,
+    };
   },
 };
 </script>

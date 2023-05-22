@@ -7,13 +7,27 @@ const routes = [
   {
     path: `/loja`,
     name: "loja",
-    component: () =>
-      import(/* webpackChunkName: "test" */ `../views/paginaLojas.vue`),
+    component: () => import("@/views/paginaLojas.vue"),
   },
   {
     path: "/lojas",
     name: "lojas",
-    component: () => import("../components/lojas.vue"), //! merge componets on a view, and change this later
+    component: () => import("@/components/lojas.vue"),
+  },
+  // {
+  //   path: "/products",
+  //   alias: "/productssss",
+  //   component: () => import("@/components/CRUD/product/ProductList.vue"),
+  // },
+  // {
+  //   path: "/product/:id",
+  //   name: "product-details",
+  //   component: () => import("@/components/CRUD/product/Product.vue"),
+  // },
+  {
+    path: "/addProduct",
+    name: "AddProduct",
+    component: () => import("@/components/CRUD/product/AddProduct.vue"),
   },
 ];
 
