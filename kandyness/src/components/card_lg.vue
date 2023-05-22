@@ -7,7 +7,7 @@
         indeterminate
       ></v-progress-linear>
     </template>
-    <v-img height="250" :src="img"></v-img>
+    <v-img height="250" :src="getImageUrl(img)"></v-img>
     <v-card-title>{{ title }}</v-card-title>
     <v-card-text>
       <v-row align="center" class="mx-0">
@@ -21,7 +21,7 @@
         ></v-rating>
         <div class="grey--text ms-4">{{ rating }} ({{ rating_votes }})</div>
       </v-row>
-      <div class="my-4 text-subtitle-1">{{ price }} • {{ tags }}</div>
+      <div class="my-4 text-subtitle-1">• {{ price }}</div>
       <div>
         {{ desc }}
       </div>
@@ -45,17 +45,13 @@
 <script>
 export default {
   name: "CardLg",
-  data: () => ({
-    selection: [],
-    loading: false,
-  }),
   props: {
     overline: String,
     title: String,
     desc: String,
     img: {
       type: String,
-      default: "https://cdn.vuetifyjs.com/images/cards/cooking.png",
+      default: "bolo_pote.jpg",
     },
     link: String,
     button: String,
@@ -80,5 +76,22 @@ export default {
       default: () => ["09:20", "09:40"],
     },
   },
+  methods: {
+    getImageUrl(img) {
+      try {
+        return require(`@/assets/lojas/${img}`);
+      } catch (e) {
+        return require(`@/assets/error.png`);
+      }
+    },
+  },
+  mounted() {
+    console.log(this.times);
+  },
+  data: () => ({
+    selection: [],
+    loading: false,
+    // image: require(img),
+  }),
 };
 </script>

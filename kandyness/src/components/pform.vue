@@ -1,32 +1,34 @@
 <template>
-  <v-form @submit.prevent :id="id" v-if="edit" v-model="valid">
+  <v-form @submit.prevent v-if="edit" v-model="valid">
     <v-row>
       <v-col cols="12">
         <v-text-field
-          :value="name"
-          v-model="Name"
+          v-model="formData.name"
           label="Nome do produto"
           :rules="nameRules"
           required
+          :readonly="true"
+          :disabled="true"
         ></v-text-field>
       </v-col>
 
-      <v-col cols="12">
+      <!-- <v-col cols="12">
         <v-select
-          :value="category"
-          v-model="Category"
+          v-model="formData.category"
           multiple
           label="Categoria do produto"
-          :items="categories.concat(category)"
+          :items="categories"
+          item-text="nome"
+          :item-value="(item) => item"
           :rules="categoryRules"
           required
+          :disabled="true"
         ></v-select>
-      </v-col>
+      </v-col> -->
 
       <v-col cols="12">
         <v-text-field
-          value="desc"
-          v-model="Description"
+          v-model="formData.desc"
           label="Descrição do produto"
           :rules="descRules"
           required
@@ -34,7 +36,19 @@
       </v-col>
 
       <v-col cols="12">
-        <v-text-field :value="image" label="Imagem do produto"></v-text-field>
+        <v-text-field
+          v-model="formData.image"
+          label="Imagem do produto"
+        ></v-text-field>
+      </v-col>
+
+      <v-col cols="12">
+        <v-text-field
+          v-model="formData.valor"
+          label="Valor do produto"
+          type="number"
+          required
+        ></v-text-field>
       </v-col>
     </v-row>
 
@@ -54,6 +68,7 @@
 </template>
 
 <script>
+import CategoriaDataService from "@/services/CategoriaDataService";
 export default {
   name: "PForm",
   props: {
@@ -61,17 +76,15 @@ export default {
     desc: String,
     image: String,
     category: Array,
-    id: String,
+    valor: Number,
     edit: Boolean,
   },
   data() {
     return {
-      Name: "",
-      Category: [],
-      Description: "",
-      Image: "",
+      formData: {},
+      categories: [],
       valid: false,
-      categories: ["Bebidas", "Doces", "Salgados", "Outros"],
+      // categories: ["Bebidas", "Doces", "Salgados", "Outros"],
       nameRules: [
         (v) => !!v || "O Nome é obrigatório",
         (v) =>
@@ -100,18 +113,28 @@ export default {
   },
   methods: {
     editCard() {
-      console.log(this.Name);
       if (this.valid) {
-        // Form is valid, emit an event or perform the necessary actions
-        // For example, you can emit an event like this:
         this.$emit("edit-card", {
-          name: this.Name,
-          category: this.Category,
-          description: this.Description,
-          image: this.image,
+          name: this.formData.name,
+          category: this.formData.category,
+          description: this.formData.desc,
+          image: this.formData.image,
+          valor: this.formData.valor,
         });
       }
     },
+  },
+  created() {
+    CategoriaDataService.getAll().then((response) => {
+      this.categories = response.data;
+    });
+    this.formData = {
+      name: this.name,
+      category: [],
+      desc: this.desc,
+      image: this.image,
+      valor: this.valor,
+    };
   },
 };
 </script>

@@ -40,9 +40,11 @@ exports.create = (req, res) => {
   const product = {
     nome: req.body.nome,
     valor: req.body.valor,
-    loja: req.body.loja
+    loja: req.body.loja,
+    descricao: req.body.descricao,
+    image: req.body.image,
   };
-
+  console.log(product);
   // Save Product in the database
   Product.create(product)
     .then(data => {
@@ -97,9 +99,8 @@ exports.findOne = (req, res) => {
 // Update a Product by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
-
   Product.update(req.body, {
-    where: { id: id }
+    where: { nome: id }
   })
     .then(num => {
       if (num == 1) {
@@ -124,7 +125,7 @@ exports.delete = (req, res) => {
   const id = req.params.id;
 
   Product.destroy({
-    where: { id: id }
+    where: { nome: id }
   })
     .then(num => {
       if (num == 1) {

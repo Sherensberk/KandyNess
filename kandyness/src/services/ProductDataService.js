@@ -9,6 +9,10 @@ class ProductDataService {
     return http.get(`/products/${id}`);
   }
 
+  getByLoja(loja) {
+    return http.get(`/products/loja/${loja}`);
+  }
+
   create(data) {
     console.log(data);
     return http.post("/products", data);

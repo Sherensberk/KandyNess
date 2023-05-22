@@ -8,6 +8,9 @@ module.exports = (sequelize, Sequelize, User) => {
       descricao: {
         type: Sequelize.STRING,
       },
+      image:{
+        type: Sequelize.STRING,
+      },
       dono: {
         type: Sequelize.STRING,
         references: {

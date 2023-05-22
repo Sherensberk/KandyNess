@@ -14,19 +14,19 @@ const routes = [
     name: "lojas",
     component: () => import("@/components/lojas.vue"),
   },
-  {
-    path: "/products",
-    alias: "/productssss",
-    component: () => import("@/components/CRUD/product/ProductList.vue"),
-  },
-  {
-    path: "/product/:id",
-    name: "product-details",
-    component: () => import("@/components/CRUD/product/Product.vue"),
-  },
+  // {
+  //   path: "/products",
+  //   alias: "/productssss",
+  //   component: () => import("@/components/CRUD/product/ProductList.vue"),
+  // },
+  // {
+  //   path: "/product/:id",
+  //   name: "product-details",
+  //   component: () => import("@/components/CRUD/product/Product.vue"),
+  // },
   {
     path: "/addProduct",
-    name: "product-add",
+    name: "AddProduct",
     component: () => import("@/components/CRUD/product/AddProduct.vue"),
   },
 ];

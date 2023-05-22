@@ -26,86 +26,16 @@
         justify-content: center;
       "
     >
-      <v-card class="mx-auto my-12" max-width="250" min-width="250">
-        <div
-          style="
-            width: 100%;
-            background-color: hsl(291, 64%, 42%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 50px;
-          "
-        >
-          <span style="color: white; font-size: 20px">Adicionar produto</span>
-        </div>
-        <div
-          style="
-            display: flex;
-
-            flex-direction: column;
-            padding: 5px;
-            gap: 10px;
-          "
-        >
-          <div>
-            <v-text-field
-              color="#9c27b0"
-              label="Nome do produto"
-              hide-details="auto"
-              id="nomeProduto"
-            ></v-text-field>
-          </div>
-          <div>
-            <v-text-field
-              color="#9c27b0"
-              label="Categoria do produto"
-              hide-details="auto"
-              id="categoriaProduto"
-            ></v-text-field>
-          </div>
-          <div>
-            <v-text-field
-              color="#9c27b0"
-              label="Descrição do produto"
-              hide-details="auto"
-              id="descProduto"
-            ></v-text-field>
-          </div>
-          <div>
-            <v-text-field
-              color="#9c27b0"
-              label="Imagem do produto"
-              id="imgProduto"
-              hide-details="auto"
-            ></v-text-field>
-          </div>
-          <v-spacer></v-spacer>
-          <div class="text-center">
-            <v-btn
-              v-on:click="addCard"
-              id="addProduto"
-              color="green"
-              elevation="2"
-              width="120"
-              ><span style="color: white">Adicionar</span></v-btn
-            >
-          </div>
-        </div> </v-card
-      ><!--Form de add fim e inicio dos pcards-->
+      <AddProduct :loja="loja"></AddProduct>
       <pcard
         v-for="(products, index) in products || []"
         :key="index"
         :name="products.nome"
         :desc="products.descricao"
-        :picture="products.picture"
-        :category="products.categoria"
-        :id="index.toString()"
-        :nameInput="'newName' + index.toString()"
-        :catInput="'newCat' + index.toString()"
-        :descInput="'newDesc' + index.toString()"
-        :imgInput="'newImg' + index.toString()"
-        @delete-card="deleteCard(index)"
+        :picture="`${loja}/${products.image}`"
+        :category="products.categorias"
+        :valor="products.valor"
+        @delete-card="deleteCard($event)"
         @edit-card="editCard($event)"
       ></pcard>
     </div>
@@ -114,12 +44,15 @@
 
 <script>
 import pcard from "@/components/pcard";
+import AddProduct from "@/components/CRUD/product/AddProduct.vue";
 import ProductDataService from "@/services/ProductDataService";
-import { mapGetters, mapActions } from "vuex";
+import CatProdDataService from "@/services/CategoriaProdutos";
+import { mapGetters } from "vuex";
 export default {
   name: "myView",
-  components: { pcard },
+  components: { pcard, AddProduct },
   data: () => ({
+    loja: "",
     products: [],
   }),
   computed: {
@@ -128,44 +61,90 @@ export default {
     }),
   },
   methods: {
-    retrieveProducts() {
-      ProductDataService.getAll()
+    retrieveProducts(loja) {
+      ProductDataService.getByLoja(loja || this.loja)
         .then((response) => {
-          this.products = response.data;
+          var products = response.data;
+          var promises = [];
+
+          products.forEach((element) => {
+            var promise = CatProdDataService.get(element.nome)
+              .then((categories) => {
+                var categorias = categories.data.map((objeto) => {
+                  return {
+                    cod: objeto.cod,
+                    nome: objeto.categoria,
+                  };
+                });
+                element.categorias = categorias;
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+
+            promises.push(promise);
+          });
+
+          Promise.all(promises)
+            .then(() => {
+              this.products = products;
+              console.log(this.products);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getCategories(product) {
+      CatProdDataService.get(product).then((response) => {
+        var categorias = response.data.map((objeto) => objeto.categoria);
+        console.table(categorias);
+        return categorias;
+      });
+    },
+    // ...mapActions(["editProduct"]),
+    deleteCard: function (index) {
+      console.log(index);
+      ProductDataService.delete(index)
+        .then((response) => {
           console.log(response.data);
+          this.retrieveProducts(this.loja);
         })
         .catch((e) => {
           console.log(e);
         });
     },
-    ...mapActions(["editProduct"]),
-    addCard: function () {
-      let nome = document.getElementById("nomeProduto");
-      let categoria = document.getElementById("categoriaProduto");
-      let desc = document.getElementById("descProduto");
-      let img = document.getElementById("imgProduto");
-
-      this.products.push({
-        name: nome.value,
-        desc: desc.value,
-        picture: img.value,
-        category: categoria.value,
-      });
-      nome.value = "";
-      desc.value = "";
-      img.value = "";
-      categoria.value = "";
-    },
-    deleteCard: function (index) {
-      this.products.splice(index, 1);
-    },
     editCard: function (info) {
-      console.log(info);
-      this.editProduct(info);
+      var data = {
+        descricao: info.description,
+        valor: info.valor,
+        image: info.image,
+      };
+      console.log(data, info);
+      ProductDataService.update(info.id, data)
+        .then((response) => {
+          console.log(response.data);
+          this.retrieveProducts(this.loja);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     },
   },
-  mounted() {
-    this.retrieveProducts();
+  created() {
+    this.loja = this.$route.params.loja;
+    if (this.loja == undefined) {
+      window.clearInterval();
+      this.$router.push({ name: "lojas" });
+    }
+    this.retrieveProducts(this.loja);
+    window.setInterval(() => {
+      console.log("Timingtrigger");
+      this.retrieveProducts(this.loja);
+    }, 5000);
   },
 };
 </script>

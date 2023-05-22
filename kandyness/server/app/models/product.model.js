@@ -13,6 +13,12 @@ module.exports = (sequelize, Sequelize, Loja) => {
       type: Sequelize.STRING,
       primaryKey: true,
     },
+    descricao: {
+      type: Sequelize.STRING,
+    },
+    image:{
+      type: Sequelize.STRING,
+    },
     valor: {
       type: Sequelize.FLOAT
     },

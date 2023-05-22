@@ -68,6 +68,7 @@ create table TB_Lojas(
 	nome varchar(200),
     descricao varchar(500),
     dono char(8),
+    image varchar(100),
     primary key (nome),
     foreign key (dono) references TB_Usuarios(matricula)
 );
@@ -75,6 +76,8 @@ create table TB_Lojas(
 create table TB_Produtos (
 	loja varchar(200),
     nome varchar(100),
+    descricao varchar(500),
+    image varchar(100),
     valor float,
     primary key (loja, nome),
     foreign key (loja) references TB_Lojas(nome)
@@ -280,20 +283,23 @@ insert into TB_Chats (remetente, destinatario, data_msg, mensagem) values (
 );
 
 
-insert into TB_Lojas (nome, dono, descricao) values (
+insert into TB_Lojas (nome, dono, descricao, image) values (
 	"Bricks Brownies",
     "10000000",
-    "Os bronies mais crocantes estão aqui"
+    "Os bronies mais crocantes estão aqui",
+    "brownies.jpg"
 );
-insert into TB_Lojas (nome, dono, descricao) values (
+insert into TB_Lojas (nome, dono, descricao, image) values (
 	"Salgados Lagados",
     "10000000",
-    "Os salgados mais exoticos estão aqui"
+    "Os salgados mais exoticos estão aqui",
+    "salgados.jpeg"
 );
-insert into TB_Lojas (nome, dono, descricao) values (
+insert into TB_Lojas (nome, dono, descricao, image) values (
 	"Pote & Bolo",
     "10000003",
-    "Os bolos de pote mais cremosos estão aqui"
+    "Os bolos de pote mais cremosos estão aqui",
+    "bolo_pote.jpg"
 );
 
 
@@ -327,76 +333,89 @@ insert into TB_LojasFisicas (dia_da_semana, lugar, abertura, loja, fechamento) v
 );
 
 
-insert into TB_Produtos (loja, nome, valor) values (
+insert into TB_Produtos (loja, nome, descricao,  image, valor) values (
 	"Bricks Brownies",
+    "Moranguelo",
     "Brownie de Morango",
+	"morango.jpg",
     2.0
 );
-insert into TB_Produtos (loja, nome, valor) values (
+insert into TB_Produtos (loja, nome, descricao,  image, valor) values (
 	"Bricks Brownies",
+    "Cholocoloco",
     "Brownie de Chocolate",
+    "chocolate.jpeg",
     2.0
 );
-insert into TB_Produtos (loja, nome, valor) values (
+insert into TB_Produtos (loja, nome, descricao, image, valor) values (
 	"Bricks Brownies",
+    "Cramarelo",
     "Brownie de Caramelo Crocante",
+    "caramelo.jpg",
     2.5
 );
-insert into TB_Produtos (loja, nome, valor) values (
+insert into TB_Produtos (loja, nome,descricao, image, valor) values (
 	"Pote & Bolo",
+    "Moranlicia",
     "Bolo de Pote sabor Morango",
+    "morango.jpg",
     4.3
 );
-insert into TB_Produtos (loja, nome, valor) values (
+insert into TB_Produtos (loja, nome, descricao, image, valor) values (
 	"Pote & Bolo",
+    "Latecholo",
     "Bolo de Pote sabor Chocolate",
+	"chocolate.jpg",
     4.30
 );
-insert into TB_Produtos (loja, nome, valor) values (
+insert into TB_Produtos (loja, nome, descricao, image, valor) values (
 	"Pote & Bolo",
+    "Cromelate",
     "Bolo de Pote sabor Caramelo Crocante",
+    "caramelo.jpg",
     2.5
 );
 
-
+/*
 insert into TBR_CategoriaProdutos(cod, categoria, loja, produto) values (
 	1, "doce",
-	"Bricks Brownies", "Brownie de Morango"
+	"Bricks Brownies", "Moranguelo"
 );
 insert into TBR_CategoriaProdutos(cod, categoria, loja, produto) values (
 	1, "doce",
-	"Bricks Brownies", "Brownie de Chocolate"
+	"Bricks Brownies", "Cholocoloco"
 );
 insert into TBR_CategoriaProdutos(cod, categoria, loja, produto) values (
 	1, "doce",
-	"Bricks Brownies", "Brownie de Caramelo Crocante"
+	"Bricks Brownies", "Cramarelo"
 );
 insert into TBR_CategoriaProdutos(cod, categoria, loja, produto) values (
 	5, "morango",
-	"Bricks Brownies", "Brownie de Morango"
+	"Bricks Brownies", "Moranguelo"
 );
 insert into TBR_CategoriaProdutos(cod, categoria, loja, produto) values (
 	6, "chocolate",
-	"Bricks Brownies", "Brownie de Chocolate"
+	"Bricks Brownies", "Cholocoloco"
 );
 insert into TBR_CategoriaProdutos(cod, categoria, loja, produto) values (
 	1, "doce",
-	"Pote & Bolo", "Bolo de Pote sabor Chocolate"
+	"Pote & Bolo", "Latecholo"
 );
 insert into TBR_CategoriaProdutos(cod, categoria, loja, produto) values (
 	1, "doce",
-	"Pote & Bolo", "Bolo de Pote sabor Caramelo Crocante"
+	"Pote & Bolo", "Cromelate"
 );
 insert into TBR_CategoriaProdutos(cod, categoria, loja, produto) values (
 	5, "morango",
-	"Pote & Bolo", "Bolo de Pote sabor Morango"
+	"Pote & Bolo", "Moranlicia"
 );
 insert into TBR_CategoriaProdutos(cod, categoria, loja, produto) values (
 	6, "chocolate",
-	"Pote & Bolo", "Bolo de Pote sabor Chocolate"
+	"Pote & Bolo", "Latecholo"
 );
+*/
 
-
+/*
 insert into TB_Vendas (NF, data_compra, valor, loja, cliente, lugar) values (
 	"000000000",
     NOW(),
@@ -406,11 +425,11 @@ insert into TB_Vendas (NF, data_compra, valor, loja, cliente, lugar) values (
     1
 );
 insert into TB_ProdutoNaVenda (loja, nome, venda, qtd) values (
-	"Bricks Brownies", "Brownie de Morango",
+	"Bricks Brownies", "Latecholo",
     "000000000",
     2
 );
-
+*/
 insert into TB_Vendas (NF, data_compra, valor, loja, cliente, lugar) values (
 	"000000020",
     DATE_ADD(NOW(), Interval -2 MONTH),
@@ -420,12 +439,12 @@ insert into TB_Vendas (NF, data_compra, valor, loja, cliente, lugar) values (
     3
 );
 insert into TB_ProdutoNaVenda (loja, nome, venda, qtd) values (
-	"Pote & Bolo", "Bolo de Pote sabor Morango",
+	"Pote & Bolo", "Moranlicia",
     "000000020",
     2
 );
 insert into TB_ProdutoNaVenda (loja, nome, venda, qtd) values (
-	"Pote & Bolo", "Bolo de Pote sabor Chocolate",
+	"Pote & Bolo", "Latecholo",
     "000000020",
     1
 );
@@ -439,7 +458,7 @@ insert into TB_Vendas (NF, data_compra, valor, loja, cliente, lugar) values (
     3
 );
 insert into TB_ProdutoNaVenda (loja, nome, venda, qtd) values (
-	"Pote & Bolo", "Bolo de Pote sabor Morango",
+	"Pote & Bolo", "Moranlicia",
     "000000030",
     2
 );
