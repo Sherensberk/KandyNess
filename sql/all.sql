@@ -1,4 +1,4 @@
-drop database if exists kandyness;
+drop database if exists KandyNess;
 create database KandyNess;
 use KandyNess;
 
