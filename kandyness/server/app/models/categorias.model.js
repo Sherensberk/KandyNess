@@ -1,6 +1,6 @@
 
 module.exports = (sequelize, Sequelize) => {
-    const Categoria = sequelize.define("tb_categorias", {
+    const Categoria = sequelize.define("TB_Categorias", {
       cod: {
         type: Sequelize.INTEGER,
         primaryKey: true

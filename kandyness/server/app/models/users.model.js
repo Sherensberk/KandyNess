@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const User = sequelize.define("tb_usuarios", {
+    const User = sequelize.define("TB_Usuarios", {
       matricula: {
         type: Sequelize.STRING,
         primaryKey: true
