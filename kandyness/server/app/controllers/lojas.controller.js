@@ -132,3 +132,23 @@ exports.deleteAll = (req, res) => {
       });
     });
 };
+
+
+exports.findAllNamesByUserId = (req, res) => {
+  const id = req.params.id;
+
+  Loja.findAll({
+    where: { dono: id },
+    attributes: ['nome']
+  })
+    .then(data => {
+      // Extrair apenas os nomes das lojas do resultado
+      const nomesLojas = data.map(loja => loja.nome);
+      res.send(nomesLojas);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error retrieving Loja names for user with id=" + id
+      });
+    });
+};

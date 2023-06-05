@@ -1,44 +1,40 @@
 <template>
   <div>
-    <!--Form de add inicio-->
-    <v-sheet
-      class="text--white"
-      color="purple"
-      elevation="1"
-      height="100"
-      width="100%"
-      style="display: flex; align-items: center"
-      ><h1 style="font-size: 50px; color: white; margin-left: 16px"></h1
-    ></v-sheet>
-    <div style="margin-left: 16px; margin-top: 50px">
-      <span style="color: #9c27b0; font-size: 25px; font-weight: 350">
+    <div class="mx-4 mt-6">
+      <span
+        class="purple--text text--darken-2 font-weight-light"
+        style="font-size: 25px"
+      >
         Produtos
       </span>
     </div>
     <v-divider class="purple lighten-4"></v-divider>
-    <div
-      style="
-        margin-left: 16px;
-        display: grid;
-        grid-template-columns: repeat(5, 250px);
-        grid-column-gap: 50px;
-        grid-row-gap: 0px;
-        justify-content: center;
-      "
-    >
-      <AddProduct :loja="loja"></AddProduct>
-      <pcard
-        v-for="(products, index) in products || []"
-        :key="index"
-        :name="products.nome"
-        :desc="products.descricao"
-        :picture="`${loja}/${products.image}`"
-        :category="products.categorias"
-        :valor="products.valor"
-        @delete-card="deleteCard($event)"
-        @edit-card="editCard($event)"
-      ></pcard>
-    </div>
+    <v-container>
+      <v-row justify="center">
+        <v-col v-if="dono?.includes(loja)">
+          <AddProduct :loja="loja"></AddProduct>
+        </v-col>
+        <v-col
+          v-for="(product, index) in products || []"
+          :key="index"
+          cols="12"
+          sm="6"
+          md="4"
+          lg="3"
+        >
+          <pcard
+            :name="product.nome"
+            :desc="product.descricao"
+            :picture="`${loja}/${product.image}`"
+            :category="product.categorias"
+            :valor="product.valor"
+            :owner="dono?.includes(loja)"
+            @delete-card="deleteCard($event)"
+            @edit-card="editCard($event)"
+          ></pcard>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -48,6 +44,7 @@ import AddProduct from "@/components/CRUD/product/AddProduct.vue";
 import ProductDataService from "@/services/ProductDataService";
 import CatProdDataService from "@/services/CategoriaProdutos";
 import { mapGetters } from "vuex";
+
 export default {
   name: "myView",
   components: { pcard, AddProduct },
@@ -58,6 +55,7 @@ export default {
   computed: {
     ...mapGetters({
       produtos: "getProdutos",
+      dono: "Dono",
     }),
   },
   methods: {
@@ -105,7 +103,6 @@ export default {
         return categorias;
       });
     },
-    // ...mapActions(["editProduct"]),
     deleteCard: function (index) {
       console.log(index);
       ProductDataService.delete(index)

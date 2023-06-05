@@ -3,6 +3,7 @@
     <!-- Usar o require para srcs, passando o path em uma template string e o nome do arquivo em uma variável -->
     <v-img class="overflow-visible" height="200" :src="getImageUrl(picture)">
       <v-btn
+        v-if="owner"
         class="mt-n4 mr-n9"
         v-on:click="deleteCard(name)"
         fab
@@ -14,7 +15,16 @@
       >
         <v-icon dark> mdi-delete </v-icon>
       </v-btn>
-      <v-btn class="mt-n4 mr-0" fab dark x-small color="blue" absolute right>
+      <v-btn
+        v-if="owner"
+        class="mt-n4 mr-0"
+        fab
+        dark
+        x-small
+        color="blue"
+        absolute
+        right
+      >
         <v-icon dark v-on:click="openModal"> mdi-pencil </v-icon>
       </v-btn>
     </v-img>
@@ -57,10 +67,24 @@
       ></PForm>
       <!--Fim do modal-->
     </v-card-text>
+    <v-btn
+      v-if="!owner"
+      class="mt-n4"
+      fab
+      dark
+      x-small
+      color="green"
+      absolute
+      right
+      @click="adicionarAoCarrinho(product)"
+    >
+      <v-icon dark>mdi-cart-plus</v-icon>
+    </v-btn>
   </v-card>
 </template>
 <script>
 import PForm from "@/components/pform.vue";
+import { mapActions } from "vuex";
 export default {
   name: "pcard",
   components: {
@@ -91,12 +115,20 @@ export default {
       type: Number,
       default: () => 0,
     },
+    owner: {
+      type: Boolean,
+      default: () => false,
+    },
   },
   data: () => ({
     valid: false,
     edit: false,
   }),
   methods: {
+    ...mapActions({
+      removerItem: "removerItem",
+      adicionarAoCarrinho: "adicionarAoCarrinho",
+    }),
     getImageUrl(img) {
       try {
         return require(`@/assets/lojas/${img}`);
@@ -122,7 +154,7 @@ export default {
       name: this.name,
       category: [],
       desc: this.desc,
-      image: this.image,
+      image: this.getImageUrl(this.picture),
       valor: this.valor,
     };
   },

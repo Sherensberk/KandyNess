@@ -1,5 +1,5 @@
 <template>
-  <v-menu bottom min-width="200px" rounded offset-y>
+  <v-menu v-if="user" bottom min-width="200px" rounded offset-y>
     <template v-slot:activator="{ on }">
       <v-btn icon x-large v-on="on">
         <v-avatar color="purple" size="42">
@@ -18,9 +18,7 @@
             {{ user.email }}
           </p>
           <v-divider class="my-3"></v-divider>
-          <v-btn depressed rounded text> Edit Account </v-btn>
-          <v-divider class="my-3"></v-divider>
-          <v-btn depressed rounded text> Disconnect </v-btn>
+          <v-btn depressed rounded text @click="disconnect">Sair</v-btn>
         </div>
       </v-list-item-content>
     </v-card>
@@ -28,14 +26,32 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "avatar",
-  data: () => ({
-    user: {
-      initials: "JD",
-      fullName: "John Doe",
-      email: "john.doe@doe.com",
+  // ...
+  computed: {
+    ...mapGetters(["getUsuario"]),
+    user() {
+      const usuario = this.getUsuario;
+      if (Object.keys(usuario).length == 0) return null;
+      return {
+        //first 2 letter form nome
+        initials: usuario.nome[0] + usuario.nome[1],
+        fullName: usuario.nome,
+        email: usuario.nome + "@gmail.com",
+      };
     },
-  }),
+  },
+  methods: {
+    disconnect() {
+      // Limpe o usuário do store (utilize a ação correspondente do Vuex)
+      this.$store.dispatch("limparUsuario");
+
+      // Redirecione para a página de login
+      this.$router.push("/login");
+    },
+  },
 };
 </script>

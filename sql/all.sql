@@ -19,6 +19,7 @@ create table TB_Usuarios(
 	matricula char(8),
 	nome varchar(150) NOT NULL,
 	cpf char(11),
+    senha varchar(20),
 	primary key(matricula)
 );
 
@@ -196,23 +197,23 @@ insert into TB_Categorias (nome) values (
 	"creme"
 );
 
-insert into TB_Usuarios (matricula, nome, cpf) values (
-	"10000000", "Fabio Souza", 	"88888888888"
+insert into TB_Usuarios (matricula, nome, cpf, senha) values (
+	"10000000", "Fabio Souza", 	"88888888888", "senha"
 );
-insert into TB_Usuarios (matricula, nome, cpf) values (
-	"10000001", "Cleber Souza",   "99999999999"
+insert into TB_Usuarios (matricula, nome, cpf, senha) values (
+	"10000001", "Cleber Souza",   "99999999999", "senha1"
 );
-insert into TB_Usuarios (matricula, nome, cpf) values (
-	"10000002", "Deborah Ribeiro", "77777777777"
+insert into TB_Usuarios (matricula, nome, cpf, senha) values (
+	"10000002", "Deborah Ribeiro", "77777777777", "senha2"
 );
-insert into TB_Usuarios (matricula, nome, cpf) values (
-	"10000003", "Fabiana Oliveria", "66666666666"
+insert into TB_Usuarios (matricula, nome, cpf, senha) values (
+	"10000003", "Fabiana Oliveria", "66666666666", "senha3"
 );
-insert into TB_Usuarios (matricula, nome, cpf) values (
-	"10000004", "Afonso Panilk", "55555555555"
+insert into TB_Usuarios (matricula, nome, cpf, senha) values (
+	"10000004", "Afonso Panilk", "55555555555", "senha4"
 );
-insert into TB_Usuarios (matricula, nome, cpf) values (
-	"10000005", "Deborah Ribeiro", "44444444444"
+insert into TB_Usuarios (matricula, nome, cpf, senha) values (
+	"10000005", "Deborah Ribeiro", "44444444444", "senha5"
 );
 insert into TB_Blocos (nome) values ( "azul" );
 insert into TB_Blocos (nome) values ( "verde" );
@@ -375,6 +376,32 @@ insert into TB_Produtos (loja, nome, descricao, image, valor) values (
     "caramelo.jpg",
     2.5
 );
+
+insert into TB_Produtos (loja, nome, descricao, image, valor) values (
+	"Salgados Lagados",
+    "Kibe",
+    "Kibe padrão",
+    "kibe.jpg",
+    1.5
+);
+
+insert into TB_Produtos (loja, nome, descricao, image, valor) values (
+	"Salgados Lagados",
+    "Coxeta",
+    "Coxianha Grandona",
+    "coxinha.jpg",
+    2.2
+);
+
+insert into TB_Produtos (loja, nome, descricao, image, valor) values (
+	"Salgados Lagados",
+    "Risoles",
+    "Sem recheio",
+    "risoles.jpg",
+    2.1
+);
+
+
 
 /*
 insert into TBR_CategoriaProdutos(cod, categoria, loja, produto) values (

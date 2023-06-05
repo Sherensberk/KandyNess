@@ -6,5 +6,8 @@ module.exports = app => {
   crudRoutes.createRoute(lojas, router);
   //Rotas específicas:
   
+  // lojasByUserID
+  router.get("/lojasByUserID/:id", lojas.findAllNamesByUserId);
+
   app.use('/api/lojas', router);
 };
