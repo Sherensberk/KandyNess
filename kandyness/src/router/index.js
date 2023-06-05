@@ -34,7 +34,7 @@ const routes = [
     name: "carrinho",
     component: () => import("@/components/carrinho.vue"),
     meta: {
-      // requiresAuth: true,
+      requiresAuth: true,
     },
   },
   {

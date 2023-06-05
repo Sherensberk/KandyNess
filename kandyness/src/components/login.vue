@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="login mt-6">
     <h2>Login</h2>
     <form @submit.prevent="login">
       <div class="form-group">
@@ -31,25 +31,27 @@ export default {
     async login() {
       try {
         // Chamada ao backend para autenticação do usuário
-        UsersDataService.get(this.matricula).then((response) => {
-          console.log(response.data);
-          if (response.data.senha == this.senha) {
-            this.$store.commit("setUsuario", response.data);
-            LojasDataService.byUserID(response.data.matricula).then(
-              (response) => {
-                if (response.data.length > 0)
-                  this.$store.commit("setLoja", response.data);
-              }
-            );
+        UsersDataService.get(this.matricula)
+          .then((response) => {
+            console.log(response.data);
+            if (response.data.senha == this.senha) {
+              this.$store.commit("setUsuario", response.data);
+              LojasDataService.byUserID(response.data.matricula).then(
+                (response) => {
+                  if (response.data.length > 0)
+                    this.$store.commit("setLoja", response.data);
+                }
+              );
 
-            this.$router.push("/lojas");
-          } else {
-            this.mensagemErro = "Senha incorreta";
-          }
-        });
+              this.$router.push("/lojas");
+            } else {
+              this.mensagemErro = "Usuario ou senha incorretos";
+            }
+          })
+          .catch(() => {
+            this.mensagemErro = "Usuario ou senha incorretos";
+          });
       } catch (error) {
-        console.error(error);
-        // Tratar erros de comunicação com o backend
         this.mensagemErro = "Erro ao conectar ao servidor";
       }
     },

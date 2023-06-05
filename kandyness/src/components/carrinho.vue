@@ -49,6 +49,10 @@
         </v-col>
       </v-row>
     </v-container>
+    <!-- Voltar para lojas "Continar comprando" -->
+    <router-link to="/lojas" class="mt-6" style="text-decoration: none">
+      <v-btn color="primary" dark block>Continuar comprando</v-btn>
+    </router-link>
   </div>
 </template>
 

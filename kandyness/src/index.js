@@ -6,32 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     usuario: {},
-    carrinho: [
-      {
-        desc: "Brownie de Caramelo Crocante",
-        image: "/img/caramelo.deee1ce7.jpg",
-        name: "Cramarelo",
-        valor: 2.5,
-      },
-      {
-        desc: "Brownie de Caramelo Crocante",
-        image: "/img/caramelo.deee1ce7.jpg",
-        name: "Cramarelo",
-        valor: 2.5,
-      },
-      {
-        desc: "Brownie de Caramelo Crocante",
-        image: "/img/caramelo.deee1ce7.jpg",
-        name: "Cramarelo",
-        valor: 2.5,
-      },
-      {
-        desc: "Brownie de Caramelo Crocante",
-        image: "/img/caramelo.deee1ce7.jpg",
-        name: "Cramarelo",
-        valor: 2.5,
-      },
-    ],
+    carrinho: [],
     lojas: [
       {
         id: 1,
@@ -158,6 +133,7 @@ export default new Vuex.Store({
     },
     limparUsuario(state) {
       state.usuario = {};
+      state.carrinho = [];
     },
     setLoja(state, lojas) {
       state.usuario.lojas = lojas;

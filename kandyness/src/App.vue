@@ -1,18 +1,17 @@
 <template>
-  <v-app id="inspire">
-    <v-navigation-drawer v-model="drawer" app>
-      <!--  -->
-    </v-navigation-drawer>
+  <v-app id="app">
     <v-app-bar app>
-      <v-app-bar-nav-icon
-        class="purple--text"
-        @click="drawer = !drawer"
-      ></v-app-bar-nav-icon>
       <v-toolbar-title class="font-weight-light purple--text"
         >Kandy</v-toolbar-title
       >
       <v-toolbar-title class="red--text">ness</v-toolbar-title>
       <v-spacer></v-spacer>
+      <!-- Icone do carrinhao de compras, que vai para carrinho  -->
+      <router-link to="/carrinho">
+        <v-btn icon>
+          <v-icon>mdi-cart</v-icon>
+        </v-btn>
+      </router-link>
       <avatar></avatar>
     </v-app-bar>
     <v-main>

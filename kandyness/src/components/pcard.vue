@@ -68,6 +68,7 @@
       <!--Fim do modal-->
     </v-card-text>
     <v-btn
+      v-if="!owner"
       class="mt-n4"
       fab
       dark

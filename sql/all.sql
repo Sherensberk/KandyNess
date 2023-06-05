@@ -377,6 +377,32 @@ insert into TB_Produtos (loja, nome, descricao, image, valor) values (
     2.5
 );
 
+insert into TB_Produtos (loja, nome, descricao, image, valor) values (
+	"Salgados Lagados",
+    "Kibe",
+    "Kibe padrão",
+    "kibe.jpg",
+    1.5
+);
+
+insert into TB_Produtos (loja, nome, descricao, image, valor) values (
+	"Salgados Lagados",
+    "Coxeta",
+    "Coxianha Grandona",
+    "coxinha.jpg",
+    2.2
+);
+
+insert into TB_Produtos (loja, nome, descricao, image, valor) values (
+	"Salgados Lagados",
+    "Risoles",
+    "Sem recheio",
+    "risoles.jpg",
+    2.1
+);
+
+
+
 /*
 insert into TBR_CategoriaProdutos(cod, categoria, loja, produto) values (
 	1, "doce",
