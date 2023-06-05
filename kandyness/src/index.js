@@ -5,6 +5,33 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    usuario: {},
+    carrinho: [
+      {
+        desc: "Brownie de Caramelo Crocante",
+        image: "/img/caramelo.deee1ce7.jpg",
+        name: "Cramarelo",
+        valor: 2.5,
+      },
+      {
+        desc: "Brownie de Caramelo Crocante",
+        image: "/img/caramelo.deee1ce7.jpg",
+        name: "Cramarelo",
+        valor: 2.5,
+      },
+      {
+        desc: "Brownie de Caramelo Crocante",
+        image: "/img/caramelo.deee1ce7.jpg",
+        name: "Cramarelo",
+        valor: 2.5,
+      },
+      {
+        desc: "Brownie de Caramelo Crocante",
+        image: "/img/caramelo.deee1ce7.jpg",
+        name: "Cramarelo",
+        valor: 2.5,
+      },
+    ],
     lojas: [
       {
         id: 1,
@@ -100,6 +127,23 @@ export default new Vuex.Store({
     getLojas: (state) => state.lojas,
     favLojas: (state) => state.lojas.slice(0, state.lojas.length / 2),
     getProdutos: (state) => state.produtos,
+    getUsuario(state) {
+      return state.usuario;
+    },
+    Dono(state) {
+      return state.usuario.lojas;
+    },
+    getCarrinho(state) {
+      return state.carrinho;
+    },
+    getTotalItens(state) {
+      return state.carrinho.length;
+    },
+    getTotalItensPreco(state) {
+      return state.carrinho.reduce((total, item) => {
+        return total + item.valor;
+      }, 0);
+    },
   },
   mutations: {
     addLoja(state, loja) {
@@ -109,6 +153,22 @@ export default new Vuex.Store({
       console.log("editProduct", payload);
       state.produtos[payload.index] = payload.value;
     },
+    setUsuario(state, usuario) {
+      state.usuario = usuario;
+    },
+    limparUsuario(state) {
+      state.usuario = {};
+    },
+    setLoja(state, lojas) {
+      state.usuario.lojas = lojas;
+    },
+    adicionarAoCarrinho(state, item) {
+      state.carrinho.push(item);
+    },
+    removerDoCarrinho(state, index) {
+      const item = state.carrinho.indexOf(index);
+      state.carrinho.splice(item, 1);
+    },
   },
   actions: {
     addLoja({ commit }, loja) {
@@ -117,6 +177,21 @@ export default new Vuex.Store({
     editProduct({ commit }, payload) {
       // console.log(payload);
       commit("editProduct", payload);
+    },
+    setUsuario({ commit }, usuario) {
+      commit("setUsuario", usuario);
+    },
+    limparUsuario({ commit }) {
+      commit("limparUsuario");
+    },
+    setLoja({ commit }, lojas) {
+      commit("setLoja", lojas);
+    },
+    adicionarAoCarrinho({ commit }, item) {
+      commit("adicionarAoCarrinho", item);
+    },
+    removerDoCarrinho({ commit }, index) {
+      commit("removerDoCarrinho", index);
     },
   },
   modules: {},

@@ -26,7 +26,7 @@
         justify-content: center;
       "
     >
-      <AddProduct :loja="loja"></AddProduct>
+      <AddProduct :loja="loja" v-if="dono?.includes(loja)"></AddProduct>
       <pcard
         v-for="(products, index) in products || []"
         :key="index"
@@ -35,6 +35,7 @@
         :picture="`${loja}/${products.image}`"
         :category="products.categorias"
         :valor="products.valor"
+        :owner="dono?.includes(loja)"
         @delete-card="deleteCard($event)"
         @edit-card="editCard($event)"
       ></pcard>
@@ -58,6 +59,7 @@ export default {
   computed: {
     ...mapGetters({
       produtos: "getProdutos",
+      dono: "Dono",
     }),
   },
   methods: {

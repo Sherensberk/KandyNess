@@ -8,6 +8,10 @@ class LojasDataService {
   get(id) {
     return http.get(`/lojas/${id}`);
   }
+
+  byUserID(id) {
+    return http.get(`/lojas/lojasByUserID/${id}`);
+  }
 }
 
 export default new LojasDataService();
