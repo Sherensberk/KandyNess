@@ -6,6 +6,10 @@
       >
       <v-toolbar-title class="red--text">ness</v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-btn icon @click="select">
+        <!-- register loja -->
+        <v-icon>mdi-store</v-icon>
+      </v-btn>
       <!-- Icone do carrinhao de compras, que vai para carrinho  -->
       <router-link to="/carrinho">
         <v-btn icon>
@@ -17,6 +21,10 @@
     <v-main>
       <!--  -->
       <RouterView></RouterView>
+      <register_loja
+        :dialog-value.sync="dialogValue"
+        @update:dialogValue="dialogValue = $event"
+      ></register_loja>
     </v-main>
   </v-app>
 </template>
@@ -24,9 +32,16 @@
 <script>
 import { RouterView } from "vue-router";
 import avatar from "@/components/avatar";
+import register_loja from "@/components/register_loja";
 
 export default {
-  data: () => ({ drawer: false }),
-  components: { RouterView, avatar },
+  data: () => ({ drawer: false, dialogValue: false }),
+  methods: {
+    select() {
+      this.dialogValue = !this.dialogValue;
+      console.log("select", this.dialogValue);
+    },
+  },
+  components: { RouterView, avatar, register_loja },
 };
 </script>

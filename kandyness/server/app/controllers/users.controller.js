@@ -12,14 +12,15 @@ exports.create = (req, res) => {
   }
 
   // Create a User
-  const User = {
+  const user = {
+    matricula: req.body.matricula,
     nome: req.body.nome,
-    valor: req.body.valor,
-    user: req.body.user
+    cpf: req.body.cpf,
+    senha : req.body.senha
   };
 
   // Save User in the database
-  User.create(User)
+  User.create(user)
     .then(data => {
       res.send(data);
     })

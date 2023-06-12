@@ -12,6 +12,11 @@ class LojasDataService {
   byUserID(id) {
     return http.get(`/lojas/lojasByUserID/${id}`);
   }
+
+  create(data) {
+    console.log(data);
+    return http.post("/lojas", data);
+  }
 }
 
 export default new LojasDataService();

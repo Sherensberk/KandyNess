@@ -12,14 +12,15 @@ exports.create = (req, res) => {
   }
 
   // Create a Loja
-  const Loja = {
+  const loja = {
     nome: req.body.nome,
-    valor: req.body.valor,
-    loja: req.body.loja
+    dono: req.body.dono,
+    image: req.body.image,
+    descricao: req.body.descricao,
   };
 
   // Save Loja in the database
-  Loja.create(Loja)
+  Loja.create(loja)
     .then(data => {
       res.send(data);
     })
