@@ -122,7 +122,7 @@
                         v-model="verify"
                         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                         :rules="[rules.required, passwordMatch]"
-                        :type="show1 ? 'text' : 'Senha'"
+                        :type="show1 ? 'text' : 'password'"
                         name="input-10-1"
                         label="Confirme a senha"
                         counter

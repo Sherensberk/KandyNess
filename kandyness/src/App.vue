@@ -6,6 +6,9 @@
       >
       <v-toolbar-title class="red--text">ness</v-toolbar-title>
       <v-spacer></v-spacer>
+      <router-link :to="{ name: 'lojas' }">
+        <v-icon>mdi-arrow-left</v-icon>
+      </router-link>
       <v-btn icon @click="select">
         <!-- register loja -->
         <v-icon>mdi-store</v-icon>

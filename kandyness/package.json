@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve --port 8081",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint --fix"
+    "lint": "vue-cli-service lint --fix",
+    "back": "cd server && node ./server.js"
   },
   "dependencies": {
     "@mdi/font": "^7.2.96",
